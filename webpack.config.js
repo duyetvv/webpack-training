@@ -9,7 +9,9 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
+    // filename: '[name].bundle.js',
+    // chunkFilename: '[name].bundle.js', /* use for dynamic imports */
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -49,7 +51,41 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Webpack training'
+      // title: 'Webpack training'
+      title: 'Caching'
     }),
-  ]
+  ],
+  /**
+   * resolve the duplicated import modules
+   */
+  optimization: {
+    // splitChunks: {
+    //   chunks: 'all'
+    // },
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
+    runtimeChunk: 'single'
+  }
 };
+
+/**
+ * configuration for the dynamic imports
+ */
+// module.exports = {
+//   mode: 'development',
+//   entry: {
+//     index: './src/index.js'
+//   },
+//   output: {
+//     filename: '[name].bundle.js',
+//     chunkFilename: '[name].bundle.js',
+//     path: path.resolve(__dirname, 'dist')
+//   }
+// };

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import './style.css';
 import Icon from './icon.png';
 import Data from './data.xml';
@@ -9,7 +11,8 @@ function component() {
   const btn = document.createElement('button');
 
   // Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = ['Hello', 'webpack'].join(' ');
+  
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
   element.classList.add('hello');
 
   btn.innerHTML = 'Click me and check the console!';
@@ -27,3 +30,21 @@ function component() {
 }
 
 document.body.appendChild(component());
+
+
+/**
+ * code demo for dynamic imports
+ */
+// function getComponent() {
+//   return import(/* webpackChunkName: "lodash" */ 'lodash').then(({ default: _ }) => {
+//     const element = document.createElement('div');
+
+//     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+    
+//     return element;
+//   }).catch(error => 'An error occurred while loading the component');
+// }
+
+// getComponent().then(component => {
+//   document.body.appendChild(component);
+// });
